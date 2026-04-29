@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hacker Mode</title>
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            overflow: hidden;
+            font-family: monospace;
+            color: lime;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #terminal {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div id="terminal"></div>
+
+<script>
+// MATRIX EFFECT
+let canvas = document.getElementById("matrix");
+let ctx = canvas.getContext("2d");
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+let letters = "HACKER1234567890";
+letters = letters.split("");
+
+let fontSize = 14;
+let columns = canvas.width / fontSize;
+let drops = [];
+
+for (let x = 0; x < columns; x++) {
+    drops[x] = 1;
+}
+
+function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "lime";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+        let text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+
+        drops[i]++;
+    }
+}
+
+setInterval(draw, 33);
+
+
+// TERMINAL EFFECT
+let terminalText = [
+"> Booting system...",
+"> Connecting to darknet...",
+"> Accessing database...",
+"> Decrypting files...",
+"> ACCESS GRANTED 😎"
+];
+
+let i = 0;
+let j = 0;
+
+function typeEffect() {
+    let terminal = document.getElementById("terminal");
+
+    if (i < terminalText.length) {
+        if (j < terminalText[i].length) {
+            terminal.innerHTML += terminalText[i].charAt(j);
+            j++;
+            setTimeout(typeEffect, 40);
+        } else {
+            terminal.innerHTML += "<br>";
+            i++;
+            j = 0;
+            setTimeout(typeEffect, 400);
+        }
+    }
+}
+
+typeEffect();
+</script>
+
+</body>
+</html>
+<audio autoplay loop>
+  <source src="https://www.soundjay.com/button/sounds/beep-07.mp3">
+</audio>
